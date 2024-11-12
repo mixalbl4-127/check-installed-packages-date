@@ -1,0 +1,38 @@
+{
+  "name": "check-installed-packages-date",
+  "version": "1.0.1",
+  "description": "This script helps identify recently updated dependencies that may have caused build issues in your project. It reads the project's package.json file, checks each dependency's installed version in node_modules, and fetches the release date of each installed package version from the npm registry. By displaying how many days ago each dependency version was released, this tool allows developers to spot recent package updates that might be responsible for breaking changes or unexpected behavior in the project’s build.",
+  "main": "index.js",
+  "bin": {
+    "check-installed-packages-date": "index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mixalbl4-127/check-installed-packages-date.git"
+  },
+  "keywords": [
+    "npm",
+    "dependencies",
+    "package",
+    "update",
+    "check",
+    "build",
+    "issues",
+    "recently updated",
+    "release date",
+    "debugging",
+    "node_modules",
+    "version",
+    "package.json",
+    "dependency-check"
+    ],
+  "author": "mixalbl4-127",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mixalbl4-127/check-installed-packages-date/issues"
+  },
+  "homepage": "https://github.com/mixalbl4-127/check-installed-packages-date#readme"
+}
