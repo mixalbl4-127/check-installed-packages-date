@@ -1,6 +1,6 @@
 {
   "name": "check-installed-packages-date",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "This script helps identify recently updated dependencies that may have caused build issues in your project. It reads the project's package.json file, checks each dependency's installed version in node_modules, and fetches the release date of each installed package version from the npm registry. By displaying how many days ago each dependency version was released, this tool allows developers to spot recent package updates that might be responsible for breaking changes or unexpected behavior in the project’s build.",
   "main": "index.js",
   "bin": {

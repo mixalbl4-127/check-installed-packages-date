@@ -57,11 +57,25 @@ function getDaysDifference(date) {
   return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 }
 
+// Function to print a progress bar in the terminal
+function printProgressBar(current, total) {
+  const barLength = 40; // Length of the progress bar
+  const progress = Math.floor((current / total) * barLength);
+  const remaining = barLength - progress;
+  const progressBar = `[${'='.repeat(progress)}${' '.repeat(remaining)}] ${Math.floor((current / total) * 100)}%`;
+  process.stdout.write(`\r${progressBar} ${current}/${total}`);
+}
+
 // Main function to print release dates of all dependencies
 async function printReleaseDates() {
-  const dependencies = { ...packageJson.dependencies, ...packageJson.devDependencies };
+  const dependencies = { ...(packageJson.dependencies || []), ...(packageJson.devDependencies || []) };
+  const dependencyDates = [];
 
-  for (const [packageName] of Object.entries(dependencies)) {
+  // Start the progress bar, set total number of dependencies
+  printProgressBar(0, Object.keys(dependencies).length);
+
+  for (let i = 0; i < Object.entries(dependencies).length; i++) {
+    const [packageName] = Object.entries(dependencies)[i];
     const installedVersion = getInstalledVersion(packageName); // Get the actual installed version
 
     if (installedVersion) {
@@ -69,15 +83,25 @@ async function printReleaseDates() {
 
       if (releaseDate) {
         const daysAgo = getDaysDifference(releaseDate);
-        console.log(
-          `${packageName}@${installedVersion} was released ${daysAgo} days ago (${releaseDate.toLocaleDateString()})`,
-        );
+        dependencyDates.push({ packageName, installedVersion, releaseDate, daysAgo });
       } else {
         console.error(`Failed to get release date for ${packageName}@${installedVersion}`);
       }
     } else {
       console.error(`Failed to get installed version for ${packageName}`);
     }
+
+    // Update the progress bar as we check each dependency
+    printProgressBar(i + 1, Object.entries(dependencies).length);
+  }
+
+  // Sort dependencies by release date (newest first)
+  dependencyDates.sort((a, b) => b.releaseDate - a.releaseDate);
+
+  // Print the sorted dependencies
+  console.log('\nDependencies sorted by release date:');
+  for (const { packageName, installedVersion, daysAgo, releaseDate } of dependencyDates) {
+    console.log(`${packageName}@${installedVersion} was released ${daysAgo} days ago (${releaseDate.toLocaleDateString()})`);
   }
 }
 
